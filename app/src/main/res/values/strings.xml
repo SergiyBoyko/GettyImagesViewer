@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GettyImagesViewer</string>
     <string name="search">Search</string>
+    <string name="request_execution_has_failed">Request execution has failed. Check your internet connection</string>
 </resources>
