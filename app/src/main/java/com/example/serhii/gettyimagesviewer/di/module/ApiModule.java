@@ -1,6 +1,9 @@
 package com.example.serhii.gettyimagesviewer.di.module;
 
+import com.example.serhii.gettyimagesviewer.api.GettyImagesApi;
 import com.example.serhii.gettyimagesviewer.common.Constants;
+import com.example.serhii.gettyimagesviewer.model.ILoadImageDataSource;
+import com.example.serhii.gettyimagesviewer.model.remote.LoadImageRemoteDataSource;
 
 import javax.inject.Singleton;
 
@@ -25,6 +28,12 @@ public class ApiModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    ILoadImageDataSource provideFeaturedDataSource(Retrofit retrofit) {
+        return new LoadImageRemoteDataSource(retrofit.create(GettyImagesApi.class));
     }
 
 }
