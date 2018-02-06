@@ -1,7 +1,9 @@
-package com.example.serhii.gettyimagesviewer;
+package com.example.serhii.gettyimagesviewer.ui.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.serhii.gettyimagesviewer.R;
 
 public class MainActivity extends AppCompatActivity {
 
