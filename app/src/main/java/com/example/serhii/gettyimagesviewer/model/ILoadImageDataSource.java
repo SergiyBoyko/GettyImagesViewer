@@ -11,5 +11,5 @@ import rx.Observable;
  */
 
 public interface ILoadImageDataSource {
-    Observable<GettyImagesResponse> getBestContent(Map<String, String> headers, int phrase);
+    Observable<GettyImagesResponse> getBestContent(Map<String, String> headers, String phrase);
 }

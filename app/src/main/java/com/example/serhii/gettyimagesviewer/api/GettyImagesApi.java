@@ -17,6 +17,6 @@ public interface GettyImagesApi {
 
     @GET("/search/images?ﬁelds=id,title,thumb&sort_order=best")
     Observable<GettyImagesResponse> getBestContent(@HeaderMap Map<String, String> headers,
-                                                   @Query("phrase") int phrase);
+                                                   @Query("phrase") String phrase);
 
 }
