@@ -1,124 +1,45 @@
 package com.example.serhii.gettyimagesviewer.model.entities;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.Required;
 
 /**
  * Created by Serhii on 06.02.2018.
  */
 
-public class Image {
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("asset_family")
-    @Expose
-    private String assetFamily;
-    @SerializedName("caption")
-    @Expose
-    private Object caption;
-    @SerializedName("collection_code")
-    @Expose
-    private String collectionCode;
-    @SerializedName("collection_id")
-    @Expose
-    private Integer collectionId;
-    @SerializedName("collection_name")
-    @Expose
-    private String collectionName;
+public class Image extends RealmObject {
+    @Ignore
     @SerializedName("display_sizes")
-    @Expose
     private List<DisplaySize> displaySizes = null;
-    @SerializedName("license_model")
-    @Expose
-    private String licenseModel;
-    @SerializedName("max_dimensions")
-    @Expose
-    private MaxDimensions maxDimensions;
-    @SerializedName("title")
-    @Expose
-    private String title;
 
-    public String getId() {
-        return id;
-    }
+    @Required
+    private String phrase;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getAssetFamily() {
-        return assetFamily;
-    }
-
-    public void setAssetFamily(String assetFamily) {
-        this.assetFamily = assetFamily;
-    }
-
-    public Object getCaption() {
-        return caption;
-    }
-
-    public void setCaption(Object caption) {
-        this.caption = caption;
-    }
-
-    public String getCollectionCode() {
-        return collectionCode;
-    }
-
-    public void setCollectionCode(String collectionCode) {
-        this.collectionCode = collectionCode;
-    }
-
-    public Integer getCollectionId() {
-        return collectionId;
-    }
-
-    public void setCollectionId(Integer collectionId) {
-        this.collectionId = collectionId;
-    }
-
-    public String getCollectionName() {
-        return collectionName;
-    }
-
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
-    }
+    @Required
+    private String url;
 
     public List<DisplaySize> getDisplaySizes() {
         return displaySizes;
     }
 
-    public void setDisplaySizes(List<DisplaySize> displaySizes) {
-        this.displaySizes = displaySizes;
+    public String getPhrase() {
+        return phrase;
     }
 
-    public String getLicenseModel() {
-        return licenseModel;
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
     }
 
-    public void setLicenseModel(String licenseModel) {
-        this.licenseModel = licenseModel;
+    public String getUrl() {
+        return url;
     }
 
-    public MaxDimensions getMaxDimensions() {
-        return maxDimensions;
+    public void setUrl(String url) {
+        this.url = url;
     }
-
-    public void setMaxDimensions(MaxDimensions maxDimensions) {
-        this.maxDimensions = maxDimensions;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 }
