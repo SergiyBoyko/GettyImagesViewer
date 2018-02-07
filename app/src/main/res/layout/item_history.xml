@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/elemet_history_height"
+    android:background="@color/dark">
+
+    <ImageView
+        android:id="@+id/history_picture"
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/image_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/history_picture"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/history_phrase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Cat"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/phrase_text_size" />
+
+        <TextView
+            android:id="@+id/history_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:text="09:52 07/02/2018" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

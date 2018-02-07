@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="phrase_text_size">36sp</dimen>
+    <dimen name="text_margin">10dp</dimen>
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_height">90dp</dimen>
+    <dimen name="elemet_history_height">100dp</dimen>
+    <dimen name="image_margin">5dp</dimen>
+</resources>
