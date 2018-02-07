@@ -21,8 +21,8 @@ public class LoadImageRemoteDataSource implements ILoadImageDataSource {
     }
 
     @Override
-    public Observable<GettyImagesResponse> getBestContent(Map<String, String> headers, String phrase) {
-        return gettyImagesApi.getBestContent(headers, phrase);
+    public Observable<GettyImagesResponse> getBestContent(String phrase) {
+        return gettyImagesApi.getBestContent(phrase);
     }
 
 }
