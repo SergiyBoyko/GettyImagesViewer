@@ -1,9 +1,13 @@
 package com.example.serhii.gettyimagesviewer.ui.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,24 +18,45 @@ import android.widget.Toast;
 
 import com.example.serhii.gettyimagesviewer.AppGettyImages;
 import com.example.serhii.gettyimagesviewer.R;
+import com.example.serhii.gettyimagesviewer.common.Constants;
 import com.example.serhii.gettyimagesviewer.di.component.AppComponent;
 import com.example.serhii.gettyimagesviewer.di.component.DaggerPresentersComponent;
 import com.example.serhii.gettyimagesviewer.di.module.PresentersModule;
+import com.example.serhii.gettyimagesviewer.model.entities.HistoryElement;
 import com.example.serhii.gettyimagesviewer.model.entities.Image;
 import com.example.serhii.gettyimagesviewer.presenters.LoadImagePresenter;
 import com.example.serhii.gettyimagesviewer.views.LoadImageView;
+import com.example.serhii.gettyimagesviewer.widgets.adapters.HistoryListAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoadImageView {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoadImageView,
+        HistoryListAdapter.OnHistoryLongClickListener {
+
+
+    @BindView(R.id.history_recycler_view)
+    RecyclerView mRecyclerView;
 
     @Inject
     LoadImagePresenter loadImagePresenter;
+
+    private Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         DaggerPresentersComponent.builder()
                 .appComponent(getAppComponent())
@@ -41,7 +66,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         loadImagePresenter.setView(this);
 
+        mRealm = Realm.getInstance(getContext());
+
         initToolbar();
+        initHistory();
     }
 
     @Override
@@ -63,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        showText("onQueryTextSubmit");
         loadImagePresenter.getFeaturedContent(query);
         return false;
     }
@@ -80,7 +107,47 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public void addHistory(Image image, String phrase) {
-        showText("Good Result: " + phrase);
+        if (image != null && image.getDisplaySizes().size() > 0) {
+            mRealm.beginTransaction();
+            HistoryElement element = mRealm.createObject(HistoryElement.class);
+            element.setPhrase(phrase);
+            element.setUrl(image.getDisplaySizes().get(0).getUri());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.HISTORY_DATE_PATTERN, Locale.ENGLISH);
+            element.setDate(dateFormat.format(new Date()));
+            mRealm.commitTransaction();
+        }
+    }
+
+    @Override
+    public void onHistoryLongClick(HistoryElement element) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_this_history_element)
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
+                    mRealm.beginTransaction();
+                    RealmResults<HistoryElement> elements = mRealm.where(HistoryElement.class)
+                            .equalTo(getString(R.string.realm_id), element.getId())
+                            .equalTo(getString(R.string.realm_url), element.getUrl())
+                            .equalTo(getString(R.string.realm_date), element.getDate())
+                            .equalTo(getString(R.string.realm_phrase), element.getPhrase())
+                            .findAll();
+                    if (!elements.isEmpty()) {
+                        for (int i = elements.size() - 1; i >= 0; i--) {
+                            if (elements.get(i).equals(element))
+                                elements.get(i).removeFromRealm();
+                        }
+                    }
+                    mRealm.commitTransaction();
+                })
+                .setNegativeButton(R.string.no, (dialog, id) -> {
+                });
+        // Create the AlertDialog object and return it
+        builder.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 
     /*
@@ -92,6 +159,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    private void initHistory() {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(new HistoryListAdapter(getContext(),
+                mRealm.allObjects(HistoryElement.class), this));
     }
 
     private AppComponent getAppComponent() {
