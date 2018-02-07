@@ -1,5 +1,7 @@
 package com.example.serhii.gettyimagesviewer.di.component;
 
+import com.example.serhii.gettyimagesviewer.model.ILoadImageDataSource;
+
 import retrofit2.Retrofit;
 
 /**
@@ -9,5 +11,7 @@ import retrofit2.Retrofit;
 public interface ApiComponent {
 
     Retrofit retrofit();
+
+    ILoadImageDataSource loadImageDataSource();
 
 }
