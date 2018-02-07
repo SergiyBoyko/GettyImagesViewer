@@ -1,6 +1,5 @@
 package com.example.serhii.gettyimagesviewer.model.entities;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
