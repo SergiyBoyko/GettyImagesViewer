@@ -2,4 +2,11 @@
     <string name="app_name">GettyImagesViewer</string>
     <string name="search">Search</string>
     <string name="request_execution_has_failed">Request execution has failed. Check your internet connection</string>
+    <string name="delete_this_history_element">Delete this element?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="realm_id">id</string>
+    <string name="realm_url">url</string>
+    <string name="realm_date">date</string>
+    <string name="realm_phrase">phrase</string>
 </resources>
