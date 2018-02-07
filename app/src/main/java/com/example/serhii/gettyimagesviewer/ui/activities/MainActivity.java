@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.HISTORY_DATE_PATTERN, Locale.ENGLISH);
             element.setDate(dateFormat.format(new Date()));
             mRealm.commitTransaction();
-        }
+        } else showText(getString(R.string.no_results));
     }
 
     @Override

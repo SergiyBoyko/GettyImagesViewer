@@ -9,4 +9,5 @@
     <string name="realm_url">url</string>
     <string name="realm_date">date</string>
     <string name="realm_phrase">phrase</string>
+    <string name="no_results">No results</string>
 </resources>
