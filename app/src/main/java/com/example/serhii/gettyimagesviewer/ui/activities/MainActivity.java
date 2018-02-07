@@ -1,7 +1,6 @@
 package com.example.serhii.gettyimagesviewer.ui.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     RecyclerView mRecyclerView;
 
     @Inject
-    LoadImagePresenter loadImagePresenter;
+    LoadImagePresenter mLoadImagePresenter;
 
     private Realm mRealm;
 
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 .build()
                 .inject(this);
 
-        loadImagePresenter.setView(this);
+        mLoadImagePresenter.setView(this);
 
         mRealm = Realm.getInstance(getContext());
 
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        loadImagePresenter.getFeaturedContent(query);
+        mLoadImagePresenter.getFeaturedContent(query);
         return false;
     }
 

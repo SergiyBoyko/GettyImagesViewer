@@ -28,7 +28,7 @@ import io.realm.RealmResults;
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder> implements RealmChangeListener {
 
     private final RealmResults<HistoryElement> mImages;
-    OnHistoryLongClickListener longClickListener;
+    private OnHistoryLongClickListener longClickListener;
     private Context context;
 
     public HistoryListAdapter(Context context, RealmResults<HistoryElement> mImages, OnHistoryLongClickListener longClickListener) {

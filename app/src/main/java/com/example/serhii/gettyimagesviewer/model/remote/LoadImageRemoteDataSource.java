@@ -14,7 +14,7 @@ import rx.Observable;
 
 public class LoadImageRemoteDataSource implements ILoadImageDataSource {
 
-    GettyImagesApi gettyImagesApi;
+    private GettyImagesApi gettyImagesApi;
 
     public LoadImageRemoteDataSource(GettyImagesApi gettyImagesApi) {
         this.gettyImagesApi = gettyImagesApi;
