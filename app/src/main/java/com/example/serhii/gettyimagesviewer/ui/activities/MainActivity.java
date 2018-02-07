@@ -127,11 +127,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                             .equalTo(getString(R.string.realm_date), element.getDate())
                             .equalTo(getString(R.string.realm_phrase), element.getPhrase())
                             .findAll();
-                    if (!elements.isEmpty()) {
-                        for (int i = elements.size() - 1; i >= 0; i--) {
-                            if (elements.get(i).equals(element))
-                                elements.get(i).removeFromRealm();
-                        }
+                    while (!elements.isEmpty()) {
+                        elements.get(elements.size() - 1).removeFromRealm();
                     }
                     mRealm.commitTransaction();
                 })
