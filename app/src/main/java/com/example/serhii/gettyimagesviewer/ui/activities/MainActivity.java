@@ -1,5 +1,6 @@
 package com.example.serhii.gettyimagesviewer.ui.activities;
 
+import android.content.Context;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,17 +12,36 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.serhii.gettyimagesviewer.AppGettyImages;
 import com.example.serhii.gettyimagesviewer.R;
+import com.example.serhii.gettyimagesviewer.di.component.AppComponent;
+import com.example.serhii.gettyimagesviewer.di.component.DaggerPresentersComponent;
+import com.example.serhii.gettyimagesviewer.di.module.PresentersModule;
+import com.example.serhii.gettyimagesviewer.model.entities.Image;
+import com.example.serhii.gettyimagesviewer.presenters.LoadImagePresenter;
+import com.example.serhii.gettyimagesviewer.views.LoadImageView;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+import javax.inject.Inject;
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoadImageView {
+
+    @Inject
+    LoadImagePresenter loadImagePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        DaggerPresentersComponent.builder()
+                .appComponent(getAppComponent())
+                .presentersModule(new PresentersModule())
+                .build()
+                .inject(this);
+
+        loadImagePresenter.setView(this);
+
+        initToolbar();
     }
 
     @Override
@@ -44,13 +64,42 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
         showText("onQueryTextSubmit");
+        loadImagePresenter.getFeaturedContent(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        showText("onQueryTextChange");
         return false;
+    }
+
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
+
+    @Override
+    public void addHistory(Image image, String phrase) {
+        showText("Good Result: " + phrase);
+    }
+
+    /*
+     * *********************************************************************************************
+     * private methods
+     * *********************************************************************************************
+     */
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private AppComponent getAppComponent() {
+        return getApp().appComponent();
+    }
+
+    private AppGettyImages getApp() {
+        return (AppGettyImages) getApplication();
     }
 
     private void showText(String text) {
